@@ -4,25 +4,9 @@
   {{#each data}}
     <li>
     {{this.name}}<br>
+    {{this.title}}<br>
+    {{this.description}}<br>
+    <img class="profile" src="{{this.image}}" alt="pic" /><br>
     </li>
   {{/each}}
 </ul>
-<div class="postImg">
-  <ul>
-    {{#each post}}
-      <li>
-        {{this.title}}<br>
-        {{this.description}}<br>
-        <img src="{{this.image}}" alt="pic" />
-      </li>
-    {{/each}}
-  </ul>
-
-</div>
-
-
-
-
-<!-- <p>
-  {{this.description}}
-</p> -->

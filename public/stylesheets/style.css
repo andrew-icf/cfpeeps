@@ -15,6 +15,7 @@ a {
   margin: auto;
   text-align: center;
 }
-.postImg {
-  width: 10vw;
+.profile {
+  width: 25vw;
+  height: 40vh;
 }
