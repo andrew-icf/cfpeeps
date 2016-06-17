@@ -1,0 +1,28 @@
+<h1>CROSSFIT!</h1>
+<a href="/">Go Home</a>
+<ul>
+  {{#each data}}
+    <li>
+    {{this.name}}<br>
+    </li>
+  {{/each}}
+</ul>
+<div class="postImg">
+  <ul>
+    {{#each post}}
+      <li>
+        {{this.title}}<br>
+        {{this.description}}<br>
+        <img src="{{this.image}}" alt="pic" />
+      </li>
+    {{/each}}
+  </ul>
+
+</div>
+
+
+
+
+<!-- <p>
+  {{this.description}}
+</p> -->
