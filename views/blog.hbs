@@ -1,12 +1,19 @@
 <h1>CROSSFIT!</h1>
-<a href="/">Go Home</a>
+<a href="/">Go Home</a><br>
+<a href="/add">Add an Athlete!</a><br>
+<a href="/create">Want to make a change...</a>
 <ul>
-  {{#each data}}
+  {{#each posts}}
     <li>
     {{this.name}}<br>
     {{this.title}}<br>
     {{this.description}}<br>
     <img class="profile" src="{{this.image}}" alt="pic" /><br>
     </li>
+    {{#each comment}}
+      <li>
+        {{this.description}}
+      </li>
+    {{/each}}
   {{/each}}
 </ul>
