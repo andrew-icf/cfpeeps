@@ -35,17 +35,55 @@ router.get('/add', function(req, res){
   })
 });
 
+router.get('/blog/:id', function (req, res) {
+  knex('post').where({id: req.params.id}).select().first().then(function (post) {
+    res.render('detail', {post: post})
+  })
+})
+
+router.get('/blog/:id/edit', function (req, res) {
+  Promise.all([
+    knex('post').where({id: req.params.id}).select().first(),
+    knex('users').select()
+  ])
+  .then(function (result) {
+    res.render('editBlog', {post: result[0], users: result[1]})
+  })
+})
+
+router.post('/update/:id', function (req, res) {
+  knex('post').where({id: req.params.id}).update(req.body).then(function () {
+    res.redirect('/blog/' + req.params.id);
+  })
+})
+
 router.post('/add', function (req, res, next) {
   // grab info from post and insert into the db user first
-  return new Promise(function(){
-    knex.table("post").insert({title:req.body.title}).then(function(message){
-      //redirecting to main page
-      console.log(message);
-      res.redirect('/blog');
+  if (!req.body.title) {
+    knex('users').select().then(function(data){
+      res.render('add', {users: data, error: "DUDE, don't forget the title", post: req.body});
     })
-  }).catch(function(error){
-    next(error);
-  })
+  } else {
+    knex.table("post").insert(req.body, 'id').first().then(function(id){
+      res.redirect('/');
+    }).catch(function(error){
+      next(error);
+    })
+  }
+  // knex('users').select().where({name: req.body.name}).first().then(function (result) {
+  //   if (result) {
+  //     req.body.user_id = result.id
+  //     knex('blog').insert(req.body).then(function () {
+  //       res.redirect('/')
+  //     })
+  //   } else {
+  //     knex('users').insert(req.body, 'id').first().then(function (id) {
+  //       req.body.user_id = id;
+  //       knex('blog').insert(req.body, 'id').first().then(function (post_id) {
+  //         res.r
+  //       })
+  //   }
+  // })
 });
 
 router.get('/create' , function(req, res, next) {

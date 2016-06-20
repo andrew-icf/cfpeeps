@@ -1,0 +1,15 @@
+<h1>Add your favorite Crossfitter!</h1>
+
+<form method="post" action="/update/{{post.id}}">
+  <select name="posting_id">
+    {{#each users}}
+    <option value="{{this.id}}">{{this.name}}</option>
+    {{/each}}
+  </select><br>
+  <!-- <input type="hidden" name="post_id" value="{{post.id}}"> -->
+  <input type="text" name="title" placeholder="Athlete" value="{{post.title}}"><br>
+  <input type="url" name="image" placeholder="Image url" value="{{post.image}}"><br>
+  <textarea name="description" placeholder="Brief description of your athlete." >{{post.description}}</textarea><br>
+  <button type="submit">3, 2, 1...UPDATE!</button>
+</form>
+<a href="/">Go Home</a>
