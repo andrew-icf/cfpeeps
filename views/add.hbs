@@ -1,14 +1,16 @@
 <h1>Add your favorite Crossfitter!</h1>
 
+<h1 style="color: red">{{error}}</h1>
+
 <form method="post" action="/add">
   <select name="posting_id">
     {{#each users}}
     <option value="{{this.id}}">{{this.name}}</option>
     {{/each}}
   </select><br>
-  <input type="text" name="title" placeholder="Athlete"><br>
-  <input type="url" name="image" placeholder="Image url"><br>
-  <textarea name="description" placeholder="Brief description of your athlete."></textarea><br>
+  <input type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
+  <input type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
+  <textarea name="description" placeholder="Brief description of your athlete." required>{{post.description}}</textarea><br>
   <button type="submit">3, 2, 1...GO!</button>
 </form>
 <a href="/">Go Home</a>

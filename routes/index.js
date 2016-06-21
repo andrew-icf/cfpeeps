@@ -32,20 +32,51 @@ router.get('/blog', function(req, res, next) {
 router.get('/add', function(req, res){
   knex('users').select().then(function(data){
     res.render('add', {users: data});
-  })
+  });
+});
+
+router.get('/blog/:id', function (req, res) {
+  knex('post').where({id: req.params.id}).select().first().then(function (post) {
+    res.render('detail', {post: post})
+  });
+});
+
+router.get('/blog/:id/edit', function(req, res) {
+  Promise.all([
+    knex('post').where({id:req.params.id}).select().first(),
+    knex('users').select()
+  ])
+  .then(function(result){
+    res.render('editBlog', {post: result[0], users: result[1]})
+  });
+});
+
+router.post('/update/:id', function(req, res) {
+  knex('post').where({id: req.params.id}).update(req.body).then(function(){
+    res.redirect('/blog/' + req.params.id);
+  });
 });
 
 router.post('/add', function (req, res, next) {
-  // grab info from post and insert into the db user first
-  return new Promise(function(){
-    knex.table("post").insert({title:req.body.title}).then(function(message){
-      //redirecting to main page
-      console.log(message);
-      res.redirect('/blog');
+  if (!req.body.title) {
+    knex('users').select().then(function(data){
+      res.render('add', {users: data, error: "Don't forget the title", post: req.body});
     })
-  }).catch(function(error){
-    next(error);
-  })
+  } else if (!req.body.image) {
+    knex('users').select().then(function(data){
+      res.render('add', {users: data, error: "Please insert a picture", post: req.body});
+    })
+  }else if (!req.body.description) {
+    knex('users').select().then(function(data){
+      res.render('add', {users: data, error: "Tell me a little bit about your athlete", post: req.body});
+    })
+  }else  {
+    knex.table('post').insert(req.body).then(function(message){
+      res.redirect('/blog');
+    }).catch(function(error){
+      next(error);
+    });
+  }
 });
 
 router.get('/create' , function(req, res, next) {
@@ -61,11 +92,11 @@ router.post('/create', function(req,res, next){
   })
 });
 
-router.get('/:id', function(req, res, next) {
-  knex('post').where({id: req.params.id}).first().then(function(post){
-  res.render('detail', {post: post});
-  })
-});
+// router.get('/:id', function(req, res, next) {
+//   knex('post').where({id: req.params.id}).first().then(function(post){
+//   res.render('detail', {post: post});
+//   })
+// });
 
 router.get('/:id/edit', function(req, res, next){
   knex('post').where({id: req.params.id}).first().then(function(post){
