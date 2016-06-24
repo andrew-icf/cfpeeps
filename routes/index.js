@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index');
@@ -10,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/blog', function(req, res, next) {
   return Promise.all([
-    knex('post').select('users.id as userId', 'users.name', 'post.title', 'post.description', 'post.image')
+    knex('post').select('users.id as userId', 'users.name', 'post.title', 'post.description', 'post.image', 'post.id as post_id')
     .leftJoin("users", function () {
       this.on("posting_id", "=", "users.id");
     }),
@@ -21,7 +20,6 @@ router.get('/blog', function(req, res, next) {
       this.on("comment_users_id", "=", "users.id")
     })
   ]).then(function(data){
-    console.log(data)
     res.render('blog', {posts: data[0], comment: data[1]});
   }).catch(function (error) {
     console.error(error);
@@ -36,9 +34,21 @@ router.get('/add', function(req, res){
 });
 
 router.get('/blog/:id', function (req, res) {
-  knex('post').where({id: req.params.id}).select().first().then(function (post) {
-    res.render('detail', {post: post})
-  });
+  return Promise.all([
+    knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
+    .join('users', function(){
+      this.on('users.id', "=", "posting_id")
+    }).where('post.id', '=', req.params.id).first(),
+
+    knex('post').select('comment.description')
+    .join('comment', function(){
+      this.on('post.id', '=', 'comment_post_id')
+    }).where('post.id', '=', req.params.id)
+
+    ]).then(function(data){
+      res.render('detail', {posts: data[0], comment:data[1]})
+    })
+
 });
 
 router.get('/blog/:id/edit', function(req, res) {
@@ -51,11 +61,15 @@ router.get('/blog/:id/edit', function(req, res) {
   });
 });
 
-router.post('/update/:id', function(req, res) {
-  knex('post').where({id: req.params.id}).update(req.body).then(function(){
-    res.redirect('/blog/' + req.params.id);
-  });
-});
+router.post('/blog/:id/comment', function(req, res){
+  knex('comment').insert({
+    description: req.body.description,
+    comment_post_id: req.params.id
+  }).then(function(data){
+    res.redirect(req.get('referer'))
+  })
+})
+
 
 router.post('/add', function (req, res, next) {
   if (!req.body.title) {
@@ -79,24 +93,6 @@ router.post('/add', function (req, res, next) {
   }
 });
 
-router.get('/create' , function(req, res, next) {
-  res.render('create');
-});
-
-router.post('/create', function(req,res, next){
-  knex('post').insert(req.body).then(function(){
-    res.redirect('/');
-  }).catch(function(err){
-    console.log(err);
-    next(err);
-  })
-});
-
-// router.get('/:id', function(req, res, next) {
-//   knex('post').where({id: req.params.id}).first().then(function(post){
-//   res.render('detail', {post: post});
-//   })
-// });
 
 router.get('/:id/edit', function(req, res, next){
   knex('post').where({id: req.params.id}).first().then(function(post){
