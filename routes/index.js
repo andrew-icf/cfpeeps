@@ -17,7 +17,7 @@ router.get('/blog', function(req, res, next) {
     .join("post", function() {
       this.on("comment_post_id", "=", "post.id");
     }).join('users', function(){
-      this.on("comment_users_id", "=", "users.id")
+      this.on("comment_users_id", "=", "users.id");
     })
   ]).then(function(data){
     res.render('blog', {posts: data[0], comment: data[1]});
@@ -37,53 +37,33 @@ router.get('/blog/:id', function (req, res) {
   return Promise.all([
     knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
     .join('users', function(){
-      this.on('users.id', "=", "posting_id")
+      this.on('users.id', "=", "posting_id");
     }).where('post.id', '=', req.params.id).first(),
 
     knex('post').select('comment.description')
     .join('comment', function(){
-      this.on('post.id', '=', 'comment_post_id')
+      this.on('post.id', '=', 'comment_post_id');
     }).where('post.id', '=', req.params.id)
 
     ]).then(function(data){
-      res.render('detail', {posts: data[0], comment:data[1]})
-    })
+      res.render('detail', {posts: data[0], comment:data[1]});
+    });
 
 });
-
-router.get('/blog/:id/edit', function(req, res) {
-  Promise.all([
-    knex('post').where({id:req.params.id}).select().first(),
-    knex('users').select()
-  ])
-  .then(function(result){
-    res.render('editBlog', {post: result[0], users: result[1]})
-  });
-});
-
-router.post('/blog/:id/comment', function(req, res){
-  knex('comment').insert({
-    description: req.body.description,
-    comment_post_id: req.params.id
-  }).then(function(data){
-    res.redirect(req.get('referer'))
-  })
-})
-
 
 router.post('/add', function (req, res, next) {
   if (!req.body.title) {
     knex('users').select().then(function(data){
       res.render('add', {users: data, error: "Don't forget the title", post: req.body});
-    })
+    });
   } else if (!req.body.image) {
     knex('users').select().then(function(data){
       res.render('add', {users: data, error: "Please insert a picture", post: req.body});
-    })
+    });
   }else if (!req.body.description) {
     knex('users').select().then(function(data){
       res.render('add', {users: data, error: "Tell me a little bit about your athlete", post: req.body});
-    })
+    });
   }else  {
     knex.table('post').insert(req.body).then(function(message){
       res.redirect('/blog');
@@ -93,20 +73,32 @@ router.post('/add', function (req, res, next) {
   }
 });
 
-
-router.get('/:id/edit', function(req, res, next){
-  knex('post').where({id: req.params.id}).first().then(function(post){
-    res.render('edit', + {post: post});
+router.get('/blog/:id/edit', function(req, res) {
+  Promise.all([
+    knex('post').where({id:req.params.id}).select().first(),
+    knex('users').select()
+  ])
+  .then(function(result){
+    res.render('editBlog', {post: result[0], users: result[1]});
   });
 });
 
-router.post('/:id/edit', function (req, res, next) {
+router.post('/blog/:id/edit', function (req, res, next) {
   knex('post').where({id: req.params.id}).update(req.body).then(function () {
-    res.redirect("/blog" + req.params.id)
+    res.redirect("/blog/" + req.params.id);
   });
 });
 
-router.get('/:id/delete', function(req, res, next){
+router.post('/blog/:id/comment', function(req, res){
+  knex('comment').insert({
+    description: req.body.description,
+    comment_post_id: req.params.id
+  }).then(function(data){
+    res.redirect(req.get('referer'));
+  });
+});
+
+router.get('/blog/:id/delete', function(req, res, next){
   knex('post').where({id: req.params.id}).del().then(function(){
     res.redirect('/blog');
   });

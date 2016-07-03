@@ -1,21 +1,30 @@
-<a href="/blog">Back to blog</a><br>
-<a href="/{{posts.id}}/delete">Delete this Athlete</a><br>
-<h2>{{posts.name}}</h2>
-<h3>{{posts.title}}</h3>
-<p>
-  {{posts.description}}
-</p>
-<img src="{{posts.image}}" alt="athlete" />
+<section class="container">
+  <a href="/blog"><button class="clickMe" type="button">Back to blog</button></a>
+  <a href="/blog/{{posts.postId}}/edit"><button class="clickMe" type="button">Edit this Athlete</button></a>
+  <a href="/blog/{{posts.postId}}/delete"><button class="clickMe" type="button">Delete this Athlete</button></a><br>
+  <h2>{{posts.name}}</h2>
+  <section class="half">
+    <h3>{{posts.title}}</h3>
+    <p>
+      {{posts.description}}
+    </p>
+    <img src="{{posts.image}}" alt="athlete"/>
+  </section>
+  <section class="half">
+    <h2>Say something about this post</h2>
+    <form class="forms" action="/blog/{{posts.postId}}/comment" method="post">
+      <textarea class="commentBox" name="description"></textarea><br>
+      <div class="back">
+        <a href="#"><button class="clickMe addCommentButton" type="submit">Add Comment</button></a>
+      </div>
+    </form>
+    <ul class="list">
+      {{# each comment}}
+        <li>
+          {{this.description}}
+        </li>
+      {{/each}}
+    </ul>
+  </section>
 
-<h1>Say something about this post</h1>
-<form action="/blog/{{posts.postId}}/comment" method="post">
-  <textarea name="description" rows="8" cols="40"></textarea><br>
-  <button type="submit">Add Comment</button>
-</form>
-<ul>
-  {{# each comment}}
-    <li>
-      {{this.description}}
-    </li>
-  {{/each}}
-</ul>
+</section>

@@ -1,17 +1,20 @@
-<h1>CROSSFIT!</h1>
-<a href="/"><button class="clickMe">Go Home</button></a>
-<a href="/add"><button class="clickMe">Add an Athlete!</button></a>
-<h2>Click on the picture to edit or leave a comment:</h2>
-<ul>
-  {{#each posts}}
-    <li class="block">
-    <!-- {{this.name}}<br> -->
-    {{this.title}}<br>
-    <a href="/blog/{{this.post_id}}">
-    <img class="profile" src="{{this.image}}" alt="pic" /><br>
-    </a>
-    </li>
-  {{/each}}
-
-
-</ul>
+<section class="topSection">
+  <h1>Drink the Juice, join the Cult...CROSSFIT!</h1>
+  <a href="/"><button class="clickMe">Go Home</button></a>
+  <a href="/add"><button class="clickMe">Add an Athlete!</button></a>
+  <h2>Click on the picture to edit or leave a comment:</h2>
+</section>
+<div class="container">
+  <div>
+    <ul>
+      {{#each posts}}
+        <li class="block">
+          {{this.title}}<br>
+          <a href="/blog/{{this.post_id}}">
+          <img class="profile" src="{{this.image}}" alt="pic" /><br>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

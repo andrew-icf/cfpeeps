@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('title');
     table.text('description');
     table.text('image');
-    table.integer('posting_id').references('users.id')
+    table.integer('posting_id').references('users.id');
   });
 };
 

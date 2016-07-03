@@ -1,16 +1,22 @@
-<h1>Add your favorite Crossfitter!</h1>
+<h1 style="text-align: center">Add your favorite Crossfitter!</h1>
 
 <h1 style="color: red">{{error}}</h1>
 
-<form method="post" action="/add">
-  <select name="posting_id">
+<form class="forms" method="post" action="/add">
+  <label for="posting_id">Select User</label>
+  <!-- <select name="posting_id">
     {{#each users}}
     <option value="{{this.id}}">{{this.name}}</option>
     {{/each}}
-  </select><br>
-  <input type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
-  <input type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
-  <textarea name="description" placeholder="Brief description of your athlete." required>{{post.description}}</textarea><br>
-  <button type="submit">3, 2, 1...GO!</button>
+  </select><br><br> -->
+  <label for="posting_id">Please Enter your athlete's name</label><br>
+  <input class="input" type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
+  <label for="posting_id">Copy a photo's url address</label><br>
+  <input class="input" type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
+  <label for="posting_id">Say something about your athlete</label><br>
+  <textarea rows="5" cols="30" class="textArea" name="description" placeholder="Description" required>{{post.description}}</textarea><br>
+  <div class="back">
+      <a href="#"><button class="clickMe addAthleteButton" type="submit">3, 2, 1...GO!</button></a>
+  </div>
 </form>
-<a href="/">Go Home</a>
+<a href="/blog"><button class="clickMe motion" type="button">Back to Blog</button></a>

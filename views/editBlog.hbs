@@ -1,14 +1,17 @@
 <h1>Update your favorite Crossfitter!</h1>
 
-<form method="post" action="/update/{{post.id}}">
-  <select name="posting_id">
+<form  class="forms" method="post" action="/blog/{{post.id}}/edit">
+  <!-- <select name="posting_id">
     {{#each users}}
     <option value="{{this.id}}">{{this.name}}</option>
     {{/each}}
-  </select><br>
-  <input type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
-  <input type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
-  <textarea name="description" placeholder="Brief description of your athlete." required>{{post.description}}</textarea><br>
-  <button type="submit">3, 2, 1...Update!</button>
+  </select><br> -->
+  <label for="title">Athlete Name:</label><br>
+    <input class="input" type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
+  <label for="image">Image URL:</label><br>
+    <input class="input" type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
+  <label for="description">Brief Description</label><br>
+    <textarea class="textArea" name="description" placeholder="Brief description of your athlete." required>{{post.description}}</textarea><br>
+  <a href="#"><button type="submit" id="marginBack" class="clickMe formButton">3, 2, 1...Update!</button></a>
 </form>
-<a href="/blog">Back to Blog</a>
+<a href="/blog"><button class="clickMe motion" type="button">Back to Blog</button></a>
