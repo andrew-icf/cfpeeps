@@ -138,6 +138,9 @@ button:hover {
   height: 15vh;
   font-size: 1.2rem;
 }
+.moveUp {
+  margin-bottom: 5vh;
+}
 .back {
   margin-left: -8vw;
   width: 60vw;
