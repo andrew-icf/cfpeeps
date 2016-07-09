@@ -10,11 +10,12 @@
     <option value="{{this.id}}">{{this.name}}</option>
     {{/each}}
   </select><br><br> -->
-  <label for="posting_id">Please Enter your athlete's name</label><br>
+  <label for="title">Please Enter your athlete's name</label><br>
   <input class="input" type="text" name="title" placeholder="Athlete" value="{{post.title}}" required><br>
-  <label for="posting_id">Copy a photo's url address</label><br>
+  <label for="image">Copy a photo's url address</label><br>
   <input class="input" type="url" name="image" placeholder="Image url" value="{{post.image}}" required><br>
-  <label for="posting_id">Say something about your athlete</label><br>
+  <label for="description">Say something about your athlete</label><br>
+  <input type="hidden" name="posting_id" value='{{id}}'>
   <textarea rows="5" cols="30" class="textArea" name="description" placeholder="Description" required>{{post.description}}</textarea><br>
   <div class="back">
       <a href="#"><button class="clickMe addAthleteButton" type="submit">3, 2, 1...GO!</button></a>

@@ -6,7 +6,7 @@ var auth = require('../auth');
 
 router.get('/', function(req, res, next) {
     if (req.session.userId) {
-        res.redirect('/index');
+        res.redirect('/blog');
     } else {
         next();
     }
@@ -20,7 +20,7 @@ auth.passport.authenticate('local', function(err, user, info) {
         res.render('./auth/login', {
             error: err
         });
-    } else if (user) {
+    } else if (users) {
         req.session.userId = users.id;
         res.redirect('/blog');
     }

@@ -20,7 +20,7 @@ router.get('/blog', function(req, res, next) {
       this.on("comment_users_id", "=", "users.id");
     })
   ]).then(function(data){
-    res.render('blog', {posts: data[0], comment: data[1]});
+    res.render('blog', {posts: data[0], user: data[0][0], comment: data[1]});
   }).catch(function (error) {
     console.error(error);
     next(error);
@@ -29,23 +29,37 @@ router.get('/blog', function(req, res, next) {
 
 router.get('/add', function(req, res){
   knex('users').select().then(function(data){
-    res.render('add', {users: data});
+    res.render('add', {users: data, id: req.session.userId});
   });
 });
 
 router.get('/blog/:id', function (req, res) {
   return Promise.all([
-    knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
-    .join('users', function(){
-      this.on('users.id', "=", "posting_id");
-    }).where('post.id', '=', req.params.id).first(),
-
-    knex('post').select('comment.description')
-    .join('comment', function(){
-      this.on('post.id', '=', 'comment_post_id');
-    }).where('post.id', '=', req.params.id)
-
+    knex('post').select(
+      'post.id as postId',
+      'users.id as userId',
+      'post.title',
+      'post.description',
+      'post.image',
+      'users.name'
+      // 'post.posting_id'
+    ).join('users', 'users.id', 'posting_id')
+    .where('post.id', req.params.id).first(),
+    knex('post').select(
+      'comment.description'
+    ).join('comment', 'comment_post_id', 'post.id')
+    .where('post.id', req.params.id)
+    // knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
+    // .join('users', function(){
+    //   this.on('users.id', "=", "posting_id");
+    // }).where('post.id', '=', req.params.id).first(),
+    //
+    // knex('post').select('comment.description')
+    // .join('comment', function(){
+    //   this.on('post.id', '=', 'comment_post_id');
+    // }).where('post.id', '=', req.params.id)
     ]).then(function(data){
+      console.log(data);
       res.render('detail', {posts: data[0], comment:data[1]});
     });
 

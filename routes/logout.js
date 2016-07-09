@@ -6,7 +6,7 @@ var auth = require('../auth');
 
 router.get('/', function(req, res, next) {
   req.session = null;
-  res.redirect('/index');
+  res.redirect('/');
 });
 
 module.exports = router;
