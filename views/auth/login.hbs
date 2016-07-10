@@ -2,10 +2,11 @@
 
 <form class="forms" action="/login" method="post">
   <label for="username">Username:</label><br>
-  <input type="text" name="username">
-  <label for="password">Password:</label>
-  <input type="password" name="password">
-  <button type="submit" name="button">Let me in!</button>
-  <a href="/index"><button type="link">Go Back</button></a>
+  <input class="input" type="text" name="username"><br>
+  <label for="password">Password:</label><br>
+  <input type="password" class="input" name="password">
+  <!-- <a href="/"><button class="clickMeAgain" type="link">Go Back</button></a> -->
+  <a href="#"><button type="submit" class="clickMeAgain up" name="button">Do it!</button></a>
 </form>
+<a href="/"><button type="button" class="clickMe motion" name="button">Go Back</button></a>
 <h3>{{error}}</h3>

@@ -20,6 +20,7 @@ router.get('/blog', function(req, res, next) {
       this.on("comment_users_id", "=", "users.id");
     })
   ]).then(function(data){
+    console.log(data);
     res.render('blog', {posts: data[0], user: data[0][0], comment: data[1]});
   }).catch(function (error) {
     console.error(error);

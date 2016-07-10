@@ -54,9 +54,19 @@ a {
 a .clickMe {
   font-size: 2rem;
   text-decoration: none;
-  color: hsl(201, 81%, 53%)
+  color: hsl(201, 81%, 53%);
 }
-.desEB {
+a .clickMeAgain {
+  font-size: 2rem;
+  text-decoration: none;
+  color: hsl(201, 81%, 53%);
+  border-radius: 50%;
+  width: 48%;
+  height: 10vh;
+  background-color: #000;
+}
+.up {
+  margin-top: -5vh;
 }
 .container {
   width: 90%;
@@ -95,9 +105,10 @@ a .clickMe {
 }
 .input {
   width: 20vw;
-  height: 3vh;
+  height: 5vh;
   margin-left: 5vw;
   margin-top: 1vw;
+  font-family: 'Signika', sans-serif;
   font-size: 1.2rem;
 }
 .textArea {
