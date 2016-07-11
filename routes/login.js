@@ -20,7 +20,7 @@ auth.passport.authenticate('local', function(err, user, info) {
         res.render('./auth/login', {
             error: err
         });
-    } else if (users) {
+    } else if (user) {
         req.session.userId = users.id;
         res.redirect('/blog');
     }
