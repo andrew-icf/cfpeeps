@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
+var auth = require('../auth');
 
 
-router.get('/', function(req, res, next) {
+router.get('/', auth.isNotLoggedIn, function(req, res, next) {
   return Promise.all([
     knex('post').select('users.id as userId', 'users.name', 'post.title', 'post.description', 'post.image', 'post.id as post_id')
     .leftJoin("users", function () {
@@ -16,8 +17,12 @@ router.get('/', function(req, res, next) {
       this.on("comment_users_id", "=", "users.id");
     })
   ]).then(function(data){
-    console.log(data[0][0].name);
-    res.render('blog', {posts: data[0], user: req.session.userId, comment: data[1]});
+    console.log(data);
+      res.render('blog', {
+        posts: data[0],
+        user: req.session.userId,
+        comment: data[1]
+      });
   }).catch(function (error) {
     console.error(error);
     next(error);
