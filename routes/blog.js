@@ -55,7 +55,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.get('/:id/edit', function(req, res) {
+router.get('/edit/:id', function(req, res) {
   Promise.all([
     knex('post').where({id:req.params.id}).select().first(),
     knex('users').select()
@@ -65,13 +65,13 @@ router.get('/:id/edit', function(req, res) {
   });
 });
 
-router.post('/:id/edit', function (req, res, next) {
+router.post('/edit/:id', function (req, res, next) {
   knex('post').where({id: req.params.id}).update(req.body).then(function () {
     res.redirect("/blog/" + req.params.id);
   });
 });
 
-router.post('/:id/comment', function(req, res){
+router.post('/comment/:id', function(req, res){
   knex('comment').insert({
     description: req.body.description,
     comment_post_id: req.params.id
@@ -80,9 +80,9 @@ router.post('/:id/comment', function(req, res){
   });
 });
 
-router.get('/:id/delete', function(req, res, next){
+router.get('/delete/:id', function(req, res, next){
   knex('post').where({id: req.params.id}).del().then(function(data){
-    res.redirect('/');
+    res.redirect('/blog');
   }).catch(function(error){
     next(error);
   });
