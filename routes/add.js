@@ -8,7 +8,7 @@ router.get('/', function(req, res){
   });
 });
 
-router.post('/:id', function (req, res, next) {
+router.post('/', function (req, res, next) {
   if (!req.body.title) {
     knex('users').select().then(function(data){
       res.render('add', {users: data, error: "Don't forget the title", post: req.body});
