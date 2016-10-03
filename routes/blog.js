@@ -32,23 +32,23 @@ router.get('/:id', function (req, res) {
       'post.title',
       'post.description',
       'post.image',
-      'users.name'
-      // 'post.posting_id'
+      'users.name',
+      'post.posting_id'
     ).join('users', 'users.id', 'posting_id')
     .where('post.id', req.params.id).first(),
     knex('post').select(
       'comment.description'
     ).join('comment', 'comment_post_id', 'post.id')
-    .where('post.id', req.params.id)
-    // knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
-    // .join('users', function(){
-    //   this.on('users.id', "=", "posting_id");
-    // }).where('post.id', '=', req.params.id).first(),
-    //
-    // knex('post').select('comment.description')
-    // .join('comment', function(){
-    //   this.on('post.id', '=', 'comment_post_id');
-    // }).where('post.id', '=', req.params.id)
+    .where('post.id', req.params.id),
+    knex('post').select('post.id as postId', 'users.id as userId', 'post.title', 'post.description', 'post.image', 'users.name')
+    .join('users', function(){
+      this.on('users.id', "=", "posting_id");
+    }).where('post.id', '=', req.params.id).first(),
+
+    knex('post').select('comment.description')
+    .join('comment', function(){
+      this.on('post.id', '=', 'comment_post_id');
+    }).where('post.id', '=', req.params.id)
     ]).then(function(data){
       console.log(data);
       res.render('detail', {posts: data[0], comment:data[1]});

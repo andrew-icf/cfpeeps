@@ -9,7 +9,6 @@ var auth = require('./auth');
 
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 var signup = require('./routes/signup');
@@ -36,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/signup', signup);
