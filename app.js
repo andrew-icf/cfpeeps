@@ -13,6 +13,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var signup = require('./routes/signup');
 var blog = require('./routes/blog');
+var add = require('./routes/add');
 
 require('dotenv').config();
 var app = express();
@@ -39,6 +40,7 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/signup', signup);
 app.use('/blog', blog);
+app.use('/add', add);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
