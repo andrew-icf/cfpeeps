@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 var auth = require('../auth');
-
+var db = require('../db/api');
 
 router.get('/', auth.isNotLoggedIn, function(req, res, next) {
   return Promise.all([
@@ -15,13 +15,14 @@ router.get('/', auth.isNotLoggedIn, function(req, res, next) {
       this.on("comment_post_id", "=", "post.id");
     }).join('users', function(){
       this.on("comment_users_id", "=", "users.id");
-    })
+    }),
+    knex('users').where({id: req.session.userId}).select().first()
   ]).then(function(data){
     console.log(data);
       res.render('blog', {
         posts: data[0],
-        user: req.session.userId,
-        comment: data[1]
+        comment: data[1],
+        user: data[2]
       });
   }).catch(function (error) {
     console.error(error);

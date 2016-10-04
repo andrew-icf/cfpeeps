@@ -16,14 +16,18 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 auth.passport.authenticate('local', function(err, user, info) {
+  console.log(err);
     if (err) {
         res.render('./auth/login', {
-            error: err
+            error: "Do it again"
         });
     } else if (user) {
-        req.session.userId = users.id;
+        req.session.userId = user.id;
         res.redirect('/blog');
+    } else {
+      next();
     }
+
   })(req, res, next);
 });
 
