@@ -4,7 +4,7 @@ var knex = require('../db/knex');
 var auth = require('../auth');
 var db = require('../db/api');
 
-router.get('/', auth.isNotLoggedIn, function(req, res, next) {
+router.get('/', function(req, res, next) {
   return Promise.all([
     knex('post').select('users.id as userId', 'users.name', 'post.title', 'post.description', 'post.image', 'post.id as post_id')
     .leftJoin("users", function () {
