@@ -4,7 +4,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 
 passport.use(new LocalStrategy(function(username, password, done){
-  console.log("dummy->", username);
+  console.log(username);
   db.findUserByUsername(username).then(function(user, err) {
     if(!user) {
       done("Something went wrong, please try again");
