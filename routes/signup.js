@@ -9,7 +9,7 @@ router.get('/', auth.isLoggedIn, function(req, res, next){
 });
 
 router.post('/', function(req, res, next){
-  db.findUserByUsername(req.body.name).then(function(name){
+  db.findUserByUsername(req.body.username).then(function(name){
     if(name){
       res.render('./auth/signup', {error: "Please try again"});
     } else {
